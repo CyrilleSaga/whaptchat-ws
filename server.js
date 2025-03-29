@@ -42,13 +42,13 @@ wss.on('connection', async (ws, request) => {
             orderBy: {createdAt: 'asc'}
         });
 
-        messages.forEach(message => {
-            ws.send(JSON.stringify({
-                username: message.user.username,
-                content: message.content,
-                createdAt: message.createdAt
-            }));
-        })
+        const messageData = messages.map(message => ({
+            username: message.user.username,
+            content: message.content,
+            createdAt: message.createdAt
+        }));
+
+        ws.send(JSON.stringify(messageData));
 
         // Réception des messages
         ws.on('message', async (message) => {
