@@ -15,6 +15,10 @@ wss.on('connection', async (ws, request) => {
 
         // Get JWT token from query params
         const token = new URL(request.url, `ws://${request.headers.host}`).searchParams.get('token');
+        if (!token) {
+            console.log("❌ No token provided. Closing connection.");
+            return ws.close();
+        }
 
         // Verify token
         let user
