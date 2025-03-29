@@ -1,16 +1,10 @@
 import {WebSocketServer} from 'ws'
 import jwt from "jsonwebtoken";
 import {prisma} from "./prisma.js";
-import express from "express";
 
 const PORT = process.env.PORT || 3000;
 
-const app = express()
-const server = app.listen(PORT, () => {
-    console.log(`✅ WebSocket Server running on port ${PORT}`);
-})
-
-const wss = new WebSocketServer({server});
+const wss = new WebSocketServer({port: PORT});
 
 // Save logged-in users
 const clients = new Map()
@@ -20,7 +14,7 @@ wss.on('connection', async (ws, request) => {
     try {
 
         // Get JWT token from query params
-        const token = new URL(request.url, `http://${request.headers.host}`).searchParams.get('token');
+        const token = new URL(request.url, `ws://${request.headers.host}`).searchParams.get('token');
 
         // Verify token
         let user
@@ -91,3 +85,5 @@ wss.on('connection', async (ws, request) => {
     }
 
 })
+
+console.log(`✅ WebSocket Server running on port ${PORT}`);
