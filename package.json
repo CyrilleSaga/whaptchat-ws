@@ -16,5 +16,6 @@
     "jsonwebtoken": "^9.0.2",
     "prisma": "^6.5.0",
     "ws": "^8.18.1"
-  }
+  },
+  "packageManager": "pnpm@9.15.0"
 }
